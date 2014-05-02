@@ -3,6 +3,11 @@
  */
 
 angular.module('App', ['mainService'])
+    .config(['$sceDelegateProvider', function($sceDelegateProvider) {
+         $sceDelegateProvider.resourceUrlWhitelist(['self', 
+                'http//emma.pixnet.cc/**']);
+
+        }])
         .controller('authorController', ['$scope', '$http', function($scope, $http) {
                     $http.get('http//emma.pixnet.cc/users/spk?format=json', function(data) {
                             console.log('data', data);
