@@ -4,7 +4,7 @@
 
 angular.module('App', ['mainService'])
         .controller('authorController', ['$scope', '$http', function($scope, $http) {
-                    $http.get('//emma.pixnet.cc/users/spk?format=json', function(data) {
+                    $http.get('http//emma.pixnet.cc/users/spk?format=json', function(data) {
                             console.log('data', data);
                         $scope.author = {
                                 name: 'Naomi',
