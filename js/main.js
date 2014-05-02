@@ -5,6 +5,7 @@
 angular.module('App', ['mainService'])
         .controller('authorController', ['$scope', '$http', function($scope, $http) {
                     $http.get('http://emma.pixnet.cc/users/skp?format=json', function(data) {
+                            console.log('data', data);
                         $scope.author = {
                                 name: 'Naomi',
                                 address: '1600 Amphitheatre'
