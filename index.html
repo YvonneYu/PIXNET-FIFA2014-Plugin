@@ -11,7 +11,7 @@
         <h1 class="logo"></h1>
         <h2 class="subLogo">精選四大部落客陪你看巴西世足賽</h2>
     </header>
-    <section class="mainSection">
+    <section class="mainSection" ng-cloak>
         <!-- spk, wtssoccer, TPCMAX, yeadean-->
         <section class="sec-{{$index}} front" ng-repeat="user in users"></section>
         <section id="{{user.data.user.name}}" class="sec-{{$index}} back"
