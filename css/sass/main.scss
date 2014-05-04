@@ -6,9 +6,9 @@ $articleWidth: 750px;
 $articleTop: 150px;
 $articleLeft: 13%;
 
-@mixin smallScreen(){
+@mixin mediaScreen($width: 1024px){
   //#Mobile (Landscape)
-  @media only screen and (max-width: 1100px) {
+  @media only screen and (max-width: $width) {
     @content
   }
 }
@@ -63,12 +63,10 @@ a, a:hover, a:active{
 .mainSection {
   position: absolute;
   top: $articleTop;
-  left: $articleLeft;
-  @include smallScreen(){
-    left: 3%;
-  }
+  left: 50%;
   bottom: 100px;
   right: 150px;
+  margin-left: -500px;
   &.notShow section:not(.focusArticle){
     display: none;
   }
@@ -130,12 +128,22 @@ a, a:hover, a:active{
   width: $articleWidth;
   height: $articleHeight;
   background: #CA5304;
-  position: absolute;
-  top: $articleTop;
-  left: 400px;
-  @include smallScreen(){
-    left: 250px;
+  position: relative;
+  top: 10px;
+  left: 36%;
+  @include mediaScreen(1700px){
+    left: 34%;
   }
+  @include mediaScreen(1500px){
+    left: 32%;
+  }
+  @include mediaScreen(1366px){
+    left: 30%;
+  }
+  @include mediaScreen(1024px){
+    left: 24%;
+  }
+  padding-top: 5px;
   &.notShow {
     display: none;
   }
