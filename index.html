@@ -8,12 +8,14 @@
 </head>
 <body ng-app="App" class="mainBody" ng-controller="mainController">
     <header class="mainHeader">
-        <h1 class="logo">FIFA 2014 x PIXNET</h1>
+        <h1 class="logo"></h1>
+        <h2 class="subLogo">精選四大部落客陪你看巴西世足賽</h2>
     </header>
     <section class="mainSection">
         <!-- spk, wtssoccer, TPCMAX, yeadean-->
-        <section id="{{user.data.user.name}}"
-                 author-section ng-repeat="user in users" class="sec-{{$index}}">
+        <section class="sec-{{$index}} front" ng-repeat="user in users"></section>
+        <section id="{{user.data.user.name}}" class="sec-{{$index}} back"
+                 author-section ng-repeat="user in users">
             <span class="avatar" style="background: url({{user.data.user.avatar}})"></span>
             <span class="displayName">{{user.data.user.display_name}}</span>
         </section>

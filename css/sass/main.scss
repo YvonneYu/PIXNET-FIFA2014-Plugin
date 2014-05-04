@@ -3,8 +3,22 @@
 $articleHeight: 450px;
 $articleWidth: 750px;
 
+$articleTop: 150px;
+$articleLeft: 13%;
+
+@mixin smallScreen(){
+  //#Mobile (Landscape)
+  @media only screen and (max-width: 1100px) {
+    @content
+  }
+}
+
 a, a:hover, a:active{
   text-decoration: none;
+}
+
+%shadow-effect {
+  box-shadow: inset 0 0 0 16px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 %avatar {
@@ -19,24 +33,40 @@ a, a:hover, a:active{
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgb(212, 130, 0);
+  //background: rgb(212, 130, 0);
+  background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.1)),
+      url("../../images/background.jpg") center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
   font-size: 16px;
   line-height: 24px;
 }
 
 .mainHeader {
-  color: rgb(0, 49, 97);
   .logo {
+    background: url("../../images/logo.png") no-repeat;
     width: 400px;
-    margin: 35px auto 0;
-    font-size: 2.5rem;
+    height: 100px;
+    margin: 10px auto 0;
+  }
+  .subLogo{
+    color: #E5F762;
+    width: 385px;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    font-weight: 900;
   }
 }
 
 .mainSection {
   position: absolute;
-  top: 100px;
-  left: 150px;
+  top: $articleTop;
+  left: $articleLeft;
+  @include smallScreen(){
+    left: 3%;
+  }
   bottom: 100px;
   right: 150px;
   &.notShow section:not(.focusArticle){
@@ -47,11 +77,22 @@ a, a:hover, a:active{
       @include transition-property(all);
       @include transition-duration(300ms);
       @include transition-timing-function(ease-in);
-      //background: rgba(184, 202, 4, 1);
-      background: url('../../images/maxresdefault.jpg') no-repeat;
-      background-position-x: -((200px * $i) + (50px*$i));
-      background-position-y: -100px;
-      background-size: 1000px auto;
+      &:hover.back {
+        opacity: 1;
+      }
+      &.front {
+        background: url('../../images/maxresdefault.jpg') no-repeat;
+        background-position: -((200px * $i) + (50px*$i)) -100px;
+      }
+      &.back {
+        @include transition-property(all);
+        @include transition-duration(300ms);
+        @include transition-timing-function(ease-in);
+        background: rgba(0, 0, 0, 0.6);
+        opacity: 0;
+        cursor: pointer;
+        @extend %shadow-effect;
+      }
       display: inline-block;
       position: absolute;
       text-align: center;
@@ -59,7 +100,15 @@ a, a:hover, a:active{
       width: 200px;
       height: $articleHeight;
       &.focusArticle {
+        @extend %shadow-effect;
         left: 0;
+        background: linear-gradient(
+            rgba(0,0,0, 0.6),
+            rgba(0, 0, 0, 0.6)),
+            url('../../images/maxresdefault.jpg') no-repeat;
+        opacity: 1;
+        cursor: default;
+        background-position: 0, -((200px * $i) + (50px*$i)) -100px;
       }
       .avatar {
         @extend %avatar;
@@ -82,8 +131,11 @@ a, a:hover, a:active{
   height: $articleHeight;
   background: #CA5304;
   position: absolute;
-  top: 100px;
+  top: $articleTop;
   left: 400px;
+  @include smallScreen(){
+    left: 250px;
+  }
   &.notShow {
     display: none;
   }
@@ -185,5 +237,65 @@ $buttonColor: #CA5304;
     width: 90%;
     margin: 0 auto;
   }
+}
+
+/**
+  @copy right http://tobiasahlin.com/spinkit/
+*/
+.spinnerSection {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+.spinner {
+  margin: 200px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+  -webkit-animation: rotate 2.0s infinite linear;
+  animation: rotate 2.0s infinite linear;
+}
+
+.dot1, .dot2 {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  background-color: black;
+  border-radius: 100%;
+  -webkit-animation: bounce 2.0s infinite ease-in-out;
+  animation: bounce 2.0s infinite ease-in-out;
+}
+
+.dot2 {
+  top: auto;
+  bottom: 0px;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% {
+      transform: scale(1.0);
+      -webkit-transform: scale(1.0);
+    }
 }
 

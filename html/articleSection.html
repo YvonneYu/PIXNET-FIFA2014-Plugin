@@ -1,8 +1,15 @@
+<section ng-show="loading" class="spinnerSection">
+    <div class="spinner">
+        <div class="dot1"></div>
+        <div class="dot2"></div>
+    </div>
+</section>
 <section class="articlesSection">
     <nav class="nav">
         <section class="navSection">
             <span class="link ng-class:{'active': stage == 'all'}" ng-click="getAllArticles()">全部</span>
             <span class="link ng-class:{'active': stage == 'hot'}" ng-click="getHotArticles()">熱門</span>
+            <span font-page-link class="link">回首頁</span>
         </section>
     </nav>
     <section class="singleSection" ng-repeat="article in articles">

@@ -19,6 +19,27 @@ angular.module('App', ['mainService', 'ui.router'])
             controller: 'articleController'
         })
     })
+    .config(function($provide) {
+        //http://stackoverflow.com/questions/17494732/how-to-make-a-loading-indicator-for-every-asynchronous-action-using-q-in-an-a
+        $provide.decorator('$q', ['$delegate', '$rootScope', function($delegate, $rootScope) {
+            var pendingPromisses = 0;
+            $rootScope.$watch(
+                function() { return pendingPromisses > 0; },
+                function(loading) { $rootScope.loading = loading; }
+            );
+            var $q = $delegate;
+            var origDefer = $q.defer;
+            $q.defer = function() {
+                var defer = origDefer();
+                pendingPromisses++;
+                defer.promise.finally(function() {
+                    pendingPromisses--;
+                });
+                return defer;
+            };
+            return $q;
+        }]);
+    })
     .controller('mainController', function ($scope, allUsersInfo) {
         $scope.showArticles = false;
         allUsersInfo().then(function(usersData) {
@@ -108,6 +129,28 @@ angular.module('App', ['mainService', 'ui.router'])
             link: link
         };
     })
+    .directive('fontPageLink', function ($state){
+        function link(scope, element, attrs){
+            element.bind('click', function (){
+                var authorSection =
+                    angular.element(document.querySelector('.focusArticle'));
+                console.log('authorSection', authorSection);
+                scope.$parent.showArticles = false;
+                authorSection.removeClass('focusArticle');
+                authorSection.parent().removeClass('notShow');
+                if (!scope.$$phase) {
+                    //$digest or $apply
+                    scope.$apply();
+                }
+            })
+        }
+
+        return {
+            restrict: 'AE',
+            //templateUrl: 'my-section.html',
+            link: link
+        };
+    })
     .directive('authorSection', function ($timeout, $state) {
         function link(scope, element, attrs) {
             //mouseover
@@ -127,10 +170,8 @@ angular.module('App', ['mainService', 'ui.router'])
                 },400);
             })
         }
-
         return {
             restrict: 'AE',
-            //templateUrl: 'my-section.html',
             link: link
         };
     });
