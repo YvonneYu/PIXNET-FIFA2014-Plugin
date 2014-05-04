@@ -1,0 +1,21 @@
+<section class="articlesSection">
+    <nav class="nav">
+        <section class="navSection">
+            <span class="link ng-class:{'active': stage == 'all'}" ng-click="getAllArticles()">全部</span>
+            <span class="link ng-class:{'active': stage == 'hot'}" ng-click="getHotArticles()">熱門</span>
+        </section>
+    </nav>
+    <section class="singleSection" ng-repeat="article in articles">
+        <header class="thumb" style="background-image: url({{article.thumb}})">
+        </header>
+        <section class="infoSection">
+            <span class="title">{{article.title}}</span><br>
+            <span>{{article.site_category}}</span>-
+            <span>{{article.category}}</span><br>
+            <span class="detailLink" ng-click="goToArticlePage(article.id)">觀看全文</span>
+        </section>
+    </section>
+    <footer ng-if="stage == 'all'" class="downloadSection">
+            <span class="link" ng-click="downloadMore()">載入更多</span>
+    </footer>
+</section>

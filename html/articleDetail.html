@@ -1,0 +1,11 @@
+<section class="articlesSection">
+    <nav class="nav">
+        <section class="navSection">
+            <span class="link" ng-click="back()">回上一頁</span>
+            <a class="link" href="{{article.link}}" target="_blank">在PIXNET看</a>
+        </section>
+    </nav>
+    <header class="articleTitle">{{article.title}}</header>
+    <section class="articleBody" article-html="article.body">
+    </section>
+</section>

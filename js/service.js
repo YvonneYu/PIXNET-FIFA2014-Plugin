@@ -5,7 +5,19 @@
 
 angular.module('mainService', [])
     .constant('SERVICE_URL', {
+        //window.location.protocol
         'pixnet_host': 'http://emma.pixnet.cc/'
+    })
+    .factory('allUsersInfo', function($q, pixnetService) {
+
+        return function (){
+            //spk, wtssoccer, TPCMAXA, yeadean
+            var userList = ['spk', 'wtssoccer', 'TPCMAX', 'yeadean'];
+            var promises = userList.map(function(user) {
+                return pixnetService.getUserInfo(user);
+            });
+            return $q.all(promises);
+        }
     })
     .service('pixnetService', function (SERVICE_URL, $http) {
 
@@ -33,12 +45,10 @@ angular.module('mainService', [])
             return getData(url);
         }
 
-        function getUserArticles(usrID){
+        function getUserArticles(usrID, page){
             //http://emma.pixnet.cc/blog/articles?user=:id
             var url = SERVICE_URL.pixnet_host + 'blog/articles',
-                query = {user: usrID,
-                    //football only
-                     category_id: 1857718};
+                query = {user: usrID, per_page: 10, page: page || 1};
             return getData(url, query);
         }
 
@@ -57,12 +67,20 @@ angular.module('mainService', [])
 
         }
 
+        function getArticle(usrID, articleID){
+            //http://emma.pixnet.cc/blog/articles/:articleID?user=:usrID
+            var url = SERVICE_URL.pixnet_host + 'blog/articles/' + articleID,
+                query = {user: usrID};
+            return getData(url, query);
+        }
+
         return {
             getData: getData,
             getUserInfo: getUserInfo,
             getUserArticles: getUserArticles,
             getUserHotArticles: getUserHotArticles,
-            getUserLatestArticles: getUserLatestArticles
+            getUserLatestArticles: getUserLatestArticles,
+            getArticle: getArticle
         }
     })
 
