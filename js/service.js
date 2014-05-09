@@ -22,21 +22,31 @@ angular.module('mainService', [])
     .service('pixnetService', function (SERVICE_URL, $http) {
 
         function getData(url, query){
-            var queryString =  {format: 'json'};
+            var queryString =  {format: 'json', callback: 'JSON_CALLBACK'};
             query = query ? angular.extend(query, queryString) : queryString;
 
-            return $http({
-                method: 'GET',
-                url: url,
-                params: query
-            }).success(function (data, status, headers, config) {
-                    return data;
-                }).error(errorCallBack);
+                // your ajax request here
+//                return $http({
+//                    method: 'GET',
+//                    url: url,
+//                    params: query
+//                }).success(function (data, status, headers, config) {
+//                        return data;
+//                    }).error(errorCallBack);
+
+                return $http.jsonp(url, {
+                    params: query
+                   }).success(function (data, status, headers, config) {
+                            console.log(data);
+                        return data;
+                    }).error(errorCallBack);
+
+
         }
         function errorCallBack(data, status, headers, config){
-            console.log('data: ' + data);
-            console.log('status: ' + status);
-            console.log("config: " + config);
+            console.log('data: ', data);
+            console.log('status: ', status);
+            console.log("config: ", config);
         }
 
         function getUserInfo(usrID){
